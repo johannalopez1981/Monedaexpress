@@ -257,7 +257,7 @@ include 'includes/connect.php';
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">
-        <span>Copyright © 2018 <a class="grey-text text-lighten-4" href="#" target="_blank">Johanna López</a> Todos los derechos reservados.</span>
+        <span>Copyright © 2018 <a class="grey-text text-lighten-4" href="#" target="_blank">Johanna López - Maryori Valencia</a> Todos los derechos reservados.</span>
         </div>
     </div>
   </footer>
