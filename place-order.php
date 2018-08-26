@@ -20,7 +20,7 @@ $verified = $row['verified'];
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>Provide Order Details</title>
+  <title>Proporcionar detalles del pedido</title>
 
   <!-- Favicons-->
   <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">
@@ -128,11 +128,11 @@ $verified = $row['verified'];
             <li class="user-details cyan darken-2">
             <div class="row">
                 <div class="col col s4 m4 l4">
-                    <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                    <img src="images/avatar.jpg" alt="Moneda express" class="circle responsive-img valign profile-image">
                 </div>
 				<div class="col col s8 m8 l8">
                     <ul id="profile-dropdown" class="dropdown-content">
-                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Cerrar sessión</a>
                         </li>
                     </ul>
                 </div>
@@ -142,14 +142,14 @@ $verified = $row['verified'];
                 </div>
             </div>
             </li>
-            <li class="bold"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Order Food</a>
+            <li class="bold"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Orden</a>
             </li>
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
                         <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i> Orders</a>
                             <div class="collapsible-body">
                                 <ul>
-								<li><a href="orders.php">All Orders</a>
+								<li><a href="orders.php">Todas las ordenes</a>
                                 </li>
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders WHERE customer_id = $user_id;");
@@ -163,26 +163,7 @@ $verified = $row['verified'];
                         </li>
                     </ul>
                 </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
-                            <div class="collapsible-body">
-                                <ul>
-								<li><a href="tickets.php">All Tickets</a>
-                                </li>
-								<?php
-									$sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets WHERE poster_id = $user_id AND not deleted;");
-									while($row = mysqli_fetch_array($sql)){
-                                    echo '<li><a href="tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                    </li>';
-									}
-									?>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>				
-            <li class="bold"><a href="details.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Edit Details</a>
+            <li class="bold"><a href="details.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Editar detalles</a>
             </li>				
         </ul>
         <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
@@ -199,7 +180,7 @@ $verified = $row['verified'];
           <div class="container">
             <div class="row">
               <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">Provide Order Details</h5>
+                <h5 class="breadcrumbs-title">Proporcionar detalles del pedido</h5>
               </div>
             </div>
           </div>
@@ -209,11 +190,11 @@ $verified = $row['verified'];
 
         <!--start container-->
 				<div class="container">
-          <p class="caption">Provide required delivery and payment details.</p>
+          <p class="caption">Proporcione los detalles de entrega y pago requeridos.</p>
           <div class="divider"></div>
             <div class="row">
               <div class="col s12 m4 l3">
-                <h4 class="header">Details</h4>
+                <h4 class="header">Detalles</h4>
               </div>
 <div>
                 <div class="card-panel">
@@ -232,7 +213,7 @@ $verified = $row['verified'];
                         <div class="input-field col s12">
                           <i class="mdi-action-home prefix"></i>
 							<textarea name="address" id="address" class="materialize-textarea validate" data-error=".errorTxt1"><?php echo $address;?></textarea>
-							<label for="address" class="">Address</label>
+							<label for="address" class="">Dirección</label>
 							<div class="errorTxt1"></div>
                         </div>
                       </div>
@@ -240,7 +221,7 @@ $verified = $row['verified'];
                         <div class="input-field col s12">
                           <i class="mdi-action-credit-card prefix"></i>
 							<input name="cc_number" id="cc_number" type="text" data-error=".errorTxt2" required>
-							<label for="cc_number" class="">Card Number</label>
+							<label for="cc_number" class="">Número de tarjeta</label>
 							<div class="errorTxt2"></div>
                         </div>
                       </div>
@@ -248,14 +229,14 @@ $verified = $row['verified'];
                         <div class="input-field col s12">
                           <i class="mdi-communication-vpn-key prefix"></i>	
 							<input name="cvv_number" id="cvv_number" type="text" data-error=".errorTxt3" required>
-							<label for="cvv_number" class="">CVV Number</label>								
+							<label for="cvv_number" class="">Número CVV</label>								
 							<div class="errorTxt3"></div>
                         </div>
                       </div>					  
                       <div class="row">
                         <div class="row">
                           <div class="input-field col s12">
-                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Submit
+                            <button class="btn cyan waves-effect waves-light right" type="submit" name="action">enviar
                               <i class="mdi-content-send right"></i>
                             </button>
                           </div>
@@ -282,7 +263,7 @@ $verified = $row['verified'];
       </div>
 	  
         <div class="container">
-          <p class="caption">Estimated Receipt</p>
+          <p class="caption">Recibo estimado</p>
           <div class="divider"></div>
           <!--editableTable-->
 <div id="work-collections" class="seaction">
@@ -291,7 +272,7 @@ $verified = $row['verified'];
 <ul id="issues-collection" class="collection">
 <?php
     echo '<li class="collection-item avatar">
-        <i class="mdi-content-content-paste red circle"></i>
+        <i class="mdi-content-content-paste blue circle"></i>
         <p><strong>Name:</strong>'.$name.'</p>
 		<p><strong>Contact Number:</strong> '.$contact.'</p>
         <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>';
@@ -316,7 +297,7 @@ $verified = $row['verified'];
                 <p class="collections-title"><strong>#'.$item_id.' </strong>'.$item_name.'</p>
             </div>
             <div class="col s2">
-                <span>'.$value.' Pieces</span>
+                <span>'.$value.' Productos</span>
             </div>
             <div class="col s3">
                 <span>Rs. '.$price.'</span>
@@ -349,8 +330,6 @@ $verified = $row['verified'];
 				</div>
                 </div>
               </div>
-            </div>
-        </div>
         <!--end container-->
 
       </section>
@@ -369,8 +348,7 @@ $verified = $row['verified'];
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">
-        <span>Copyright © 2017 <a class="grey-text text-lighten-4" href="#" target="_blank">Students</a> All rights reserved.</span>
-        <span class="right"> Design and Developed by <a class="grey-text text-lighten-4" href="#">Students</a></span>
+        <span>Copyright © 2018 <a class="grey-text text-lighten-4" href="#" target="_blank">Johanna López</a> Todos los derechos reservados.</span>
         </div>
     </div>
   </footer>

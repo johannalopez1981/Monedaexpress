@@ -907,7 +907,7 @@
 }
 
 .cyan-text {
-    color: #A82128 !important;
+    color: #2196f3 !important;
 }
 
 .cyan.darken-1 {
@@ -2586,7 +2586,7 @@ ul {
 }
 
 a {
-    color: #A82128;
+    color: #2196f3;
     text-decoration: none;
     -webkit-tap-highlight-color: transparent;
 }
@@ -2661,7 +2661,7 @@ ul li {
 blockquote {
     margin: 20px 0;
     padding-left: 1.5rem;
-    border-left: 5px solid #A82128;
+    border-left: 5px solid #2196f3;
 }
 
 i {
@@ -2717,7 +2717,7 @@ img.responsive-img, video.responsive-video {
 }
 
 .pagination li.active {
-    background-color: #A82128;
+    background-color: #2196f3;
 }
 
 .pagination li.disabled a {
@@ -2895,7 +2895,7 @@ ul.staggered-list li {
 footer.page-footer {
     margin-top: 20px;
     padding-top: 20px;
-    background-color: #A82128;
+    background-color: #005093;
 }
 
 footer.page-footer .footer-copyright {
@@ -3137,7 +3137,7 @@ td, th {
 
 .secondary-content {
     float: right;
-    color: #b84322;
+    color: #2196f3;
 }
 
 .collapsible .collection {
@@ -7443,7 +7443,7 @@ nav ul a span.badge {
 
 nav {
     color: #fff;
-    background-color: #A82128;
+    background-color: #005093;
     width: 100%;
     height: 56px;
     line-height: 56px;
@@ -7906,7 +7906,7 @@ nav .input-field label.active {
 }
 
 .tabs .tab a {
-    color: #A82128;
+    color: #2196f3;
     display: block;
     width: 100%;
     height: 100%;
@@ -9590,7 +9590,7 @@ select {
 }
 
 .side-nav .collapsible-body li.active, .side-nav.fixed .collapsible-body li.active {
-    background-color: #A82128;
+    background-color: #2196f3;
 }
 
 .side-nav .collapsible-body li.active a, .side-nav.fixed .collapsible-body li.active a {
@@ -9598,11 +9598,11 @@ select {
 }
 
 .side-nav.fixed.leftside-navigation .collapsible-body li.active > a {
-    color: #A82128;
+    color: #2196f3;
 }
 
 ul.side-nav.leftside-navigation li.active > a {
-    color: #A82128;
+    color: #005093;
 }
 
 #sidenav-overlay {

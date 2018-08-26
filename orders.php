@@ -13,7 +13,7 @@ include 'includes/wallet.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>Past Orders</title>
+  <title>Pedidos anteriores</title>
 
   <!-- Favicons-->
   <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">
@@ -80,11 +80,11 @@ include 'includes/wallet.php';
             <li class="user-details cyan darken-2">
             <div class="row">
                 <div class="col col s4 m4 l4">
-                    <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                    <img src="images/avatar.jpg" alt="Moneda express" class="circle responsive-img valign profile-image">
                 </div>
 				<div class="col col s8 m8 l8">
                     <ul id="profile-dropdown" class="dropdown-content">
-                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
+                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Cerrar sessión</a>
                         </li>
                     </ul>
                 </div>
@@ -94,18 +94,18 @@ include 'includes/wallet.php';
                 </div>
             </div>
             </li>
-            <li class="bold"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Order Food</a>
+            <li class="bold"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Orden</a>
             </li>
                 <li class="no-padding">
                     <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan active"><i class="mdi-editor-insert-invitation"></i> Orders</a>
+                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan active"><i class="mdi-editor-insert-invitation"></i> Orderes</a>
                             <div class="collapsible-body">
                                 <ul>
 								<li class="<?php
 								if(!isset($_GET['status'])){
 										echo 'active';
 									}?>
-									"><a href="orders.php">All Orders</a>
+									"><a href="orders.php">Todas las ordenes</a>
                                 </li>
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders  WHERE customer_id = $user_id;;");
@@ -122,26 +122,7 @@ include 'includes/wallet.php';
                         </li>
                     </ul>
                 </li>
-                <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
-                            <div class="collapsible-body">
-                                <ul>
-								<li><a href="tickets.php">All Tickets</a>
-                                </li>
-								<?php
-									$sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets WHERE poster_id = $user_id AND not deleted;");
-									while($row = mysqli_fetch_array($sql)){
-                                    echo '<li><a href="tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                    </li>';
-									}
-									?>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>				
-            <li class="bold"><a href="details.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Edit Details</a>
+            <li class="bold"><a href="details.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Editar detalles</a>
             </li>				
         </ul>
         <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
@@ -158,7 +139,7 @@ include 'includes/wallet.php';
           <div class="container">
             <div class="row">
               <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">Past Orders</h5>
+                <h5 class="breadcrumbs-title">Pedidos anteriores</h5>
               </div>
             </div>
           </div>
@@ -168,7 +149,7 @@ include 'includes/wallet.php';
 
         <!--start container-->
         <div class="container">
-          <p class="caption">List of your past orders with details</p>
+          <p class="caption">Lista de sus pedidos anteriores con detalles</p>
           <div class="divider"></div>
           <!--editableTable-->
 <div id="work-collections" class="seaction">
@@ -183,19 +164,19 @@ include 'includes/wallet.php';
 					$sql = mysqli_query($con, "SELECT * FROM orders WHERE customer_id = $user_id AND status LIKE '$status';;");
 					echo '              <div class="row">
                 <div>
-                    <h4 class="header">List</h4>
+                    <h4 class="header">Lista</h4>
                     <ul id="issues-collection" class="collection">';
 					while($row = mysqli_fetch_array($sql))
 					{
 						$status = $row['status'];
 						echo '<li class="collection-item avatar">
-                              <i class="mdi-content-content-paste red circle"></i>
-                              <span class="collection-header">Order No. '.$row['id'].'</span>
-                              <p><strong>Date:</strong> '.$row['date'].'</p>
-                              <p><strong>Payment Type:</strong> '.$row['payment_type'].'</p>
-							  <p><strong>Address: </strong>'.$row['address'].'</p>							  
-                              <p><strong>Status:</strong> '.($status=='Paused' ? 'Paused <a  data-position="bottom" data-delay="50" data-tooltip="Please contact administrator for further details." class="btn-floating waves-effect waves-light tooltipped cyan">    ?</a>' : $status).'</p>							  
-							  '.(!empty($row['description']) ? '<p><strong>Note: </strong>'.$row['description'].'</p>' : '').'						                               
+                              <i class="mdi-content-content-paste blue circle"></i>
+                              <span class="collection-header">Orden No. '.$row['id'].'</span>
+                              <p><strong>Fecha:</strong> '.$row['date'].'</p>
+                              <p><strong>Tipo de pago:</strong> '.$row['payment_type'].'</p>
+							  <p><strong>Dirección: </strong>'.$row['address'].'</p>							  
+                              <p><strong>Estado:</strong> '.($status=='Paused' ? 'Paused <a  data-position="bottom" data-delay="50" data-tooltip="Please contact administrator for further details." class="btn-floating waves-effect waves-light tooltipped cyan">    ?</a>' : $status).'</p>							  
+							  '.(!empty($row['description']) ? '<p><strong>Notas: </strong>'.$row['description'].'</p>' : '').'						                               
 							  <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
                               </li>';
 						$order_id = $row['id'];
@@ -237,7 +218,7 @@ include 'includes/wallet.php';
 									if($status != 'Delivered'){
 								echo '<form action="routers/cancel-order.php" method="post">
 										<input type="hidden" value="'.$id.'" name="id">
-										<input type="hidden" value="Cancelled by Customer" name="status">	
+										<input type="hidden" value="Cancelado Usuario" name="status">	
 										<input type="hidden" value="'.$row['payment_type'].'" name="payment_type">											
 										<button class="btn waves-effect waves-light right submit" type="submit" name="action">Cancel Order
                                               <i class="mdi-content-clear right"></i> 
@@ -252,8 +233,6 @@ include 'includes/wallet.php';
 					 </ul>
                 </div>
               </div>
-            </div>
-        </div>
         <!--end container-->
 
       </section>
@@ -272,8 +251,7 @@ include 'includes/wallet.php';
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">
-        <span>Copyright © 2017 <a class="grey-text text-lighten-4" href="#" target="_blank">Students</a> All rights reserved.</span>
-        <span class="right"> Design and Developed by <a class="grey-text text-lighten-4" href="#">Students</a></span>
+        <span>Copyright © 2018 <a class="grey-text text-lighten-4" href="#" target="_blank">Johanna López</a> Todos los derechos reservados.</span>
         </div>
     </div>
   </footer>

@@ -1,17 +1,18 @@
 <?php
     include 'includes/connect.php';
-    
-        if($_SESSION['admin_sid']==session_id())
+    include 'includes/wallet.php';
+        if($_SESSION['customer_sid']==session_id())
         {
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="msapplication-tap-highlight" content="no">
-        <title>Lista de productos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Ordenes de pedido</title>
         <!-- Favicons-->
         <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">
         <!-- Favicons-->
@@ -90,6 +91,10 @@
                         <ul class="left">
                             <li><h1 class="logo-wrapper"><a href="index.php" class="brand-logo darken-1"><img src="images/materialize-logo.png" alt="logo"></a> <span class="logo-text">Logo</span></h1></li>
                         </ul>
+                        <ul class="right hide-on-med-and-down">
+                            <li><a href="#" class="waves-effect waves-block waves-light"><i class="mdi-editor-attach-money"><?php echo $balance;?></i></a>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </div>
@@ -111,7 +116,7 @@
                                 </div>
                                 <div class="col col s8 m8 l8">
                                     <ul id="profile-dropdown" class="dropdown-content">
-                                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Cerrar sesión</a>
+                                        <li><a href="routers/logout.php"><i class="mdi-hardware-keyboard-tab"></i> Salir</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -121,20 +126,21 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="bold active"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Lista de productos</a>
+                        <li class="bold active"><a href="index.php" class="waves-effect waves-cyan"><i class="mdi-editor-border-color"></i> Orden</a>
                         </li>
                         <li class="no-padding">
                             <ul class="collapsible collapsible-accordion">
                                 <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-editor-insert-invitation"></i> Ordenes</a>
                                     <div class="collapsible-body">
                                         <ul>
-                                            <li><a href="all-orders.php">Todas las Ordenes</a>
+                                            <li><a href="orders.php">Todas las ordenes</a>
                                             </li>
                                             <?php
-                                                $sql = mysqli_query($con, "SELECT DISTINCT status FROM orders;");
+                                                $sql = mysqli_query($con, "SELECT DISTINCT status FROM orders WHERE customer_id = $user_id;");
                                                 while($row = mysqli_fetch_array($sql)){
-                                                echo '<li><a href="all-orders.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                                </li>';
+                                                echo '
+                                            <li><a href="orders.php?status='.$row['status'].'">'.$row['status'].'</a>
+                                            </li>';
                                                 }
                                             ?>
                                         </ul>
@@ -142,7 +148,27 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="bold"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Usuarios</a>
+                        <li class="no-padding">
+                            <ul class="collapsible collapsible-accordion">
+                                <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
+                                    <div class="collapsible-body">
+                                        <ul>
+                                            <li><a href="tickets.php">Todas las solicitudes</a>
+                                            </li>
+                                            <?php
+                                                $sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets WHERE poster_id = $user_id AND not deleted;");
+                                                while($row = mysqli_fetch_array($sql)){
+                                                echo '
+                                            <li><a href="tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
+                                            </li>';
+                                                }
+                                            ?>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="bold"><a href="details.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Editar detalles</a>
                         </li>
                     </ul>
                     <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only cyan"><i class="mdi-navigation-menu"></i></a>
@@ -156,7 +182,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col s12 m12 l12">
-                                    <h5 class="breadcrumbs-title">Lista de productos</h5>
+                                    <h5 class="breadcrumbs-title">Order</h5>
                                 </div>
                             </div>
                         </div>
@@ -164,97 +190,108 @@
                     <!--breadcrumbs end-->
                     <!--start container-->
                     <div class="container">
-                        <p class="caption">Agregar, editar o eliminar elementos</p>
+
+                        <div class="col s12 m4 l3">
+                            <h4 class="header">Tipo de producto</h4>
+                        </div>
+                        <div>
+                            <select>
+                                <option value="1">Moneda por billete</option>
+                                <option value="2">Billete por moneda</option>
+                                <option value="3">Billte por Billete</option>
+                            </select>
+                        </div>
+
+                        <div class="col s12 m4 l3">
+                            <h4 class="header">Cantidad</h4>
+                        </div>
+                        <div>
+                            <input type="number" name="TxtCantidad" id="TxtCantidad" title="Cantidad">
+                        </div>
+
+                        <div class="col s12 m4 l3">
+                            <h4 class="header">Denominación</h4>
+                        </div>
+                        <div>
+                            <select>
+                                <option value="2000">Turro 50 Pesos</option>
+                                <option value="4000">Turro 100 Pesos</option>
+                                <option value="5000">Turro 200 Pesos</option>
+                                <option value="10000">Turro 500 Pesos</option>
+                                <option value="20000">Turro 1000 Pesos</option>
+                                <option value="20000">Fajo 2000</option>
+                                <option value="50000">Fajo 5000</option>
+                            </select>
+                        </div>
+                        <button title="Solicitar Cambio" id="btnCalcularPrecio" class="btn cyan waves-effect waves-light righ">
+                           Calcular Valor <i class="mdi-content-send right"></i>
+                        </button>
+                        <button title="Solicitar Cambio" id="btnGenerar" class="btn cyan waves-effect waves-light righ">
+                           Guardar <i class="mdi-content-send right"></i>
+                        </button>
+                                                    <!--<script>
+                                                        $("#btnCalcularPrecio").click(function () {
+                                                            alert("clik me");
+                                                        });
+                                                    </script>-->
+                        <!--  <p class="caption">Order your food here.</p>-->
                         <div class="divider"></div>
-                        <form class="formValidate" id="formValidate" method="post" action="routers/menu-router.php" novalidate="novalidate">
+                        <form class="formValidate" id="formValidate" method="post" action="place-order.php" novalidate="novalidate">
                             <div class="row">
                                 <div class="col s12 m4 l3">
-                                    <h4 class="header">Orden</h4>
+                                    <h4 class="header">Solicitar Orden</h4>
                                 </div>
                                 <div>
-                                    <table id="data-table-admin" class="responsive-table display" cellspacing="0">
+                                    <table id="data-table-customer" class="responsive-table display" cellspacing="0">
                                         <thead>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Precio</th>
-                                            <th>Disponible</th>
+                                            <th>Name</th>
+                                            <th>Item Price/Piece</th>
+                                            <th>Quantity</th>
                                         </tr>
                    </thead>
                                         <tbody>
                                             <?php
-                                                $result = mysqli_query($con, "SELECT * FROM items");
+                                                $result = mysqli_query($con, "SELECT * FROM items where not deleted;");
                                                 while($row = mysqli_fetch_array($result))
                                                 {
-                                                    echo '<tr><td><div class="input-field col s12"><label for="'.$row["id"].'_name">Name</label>';
-                                                    echo '<input value="'.$row["name"].'" id="'.$row["id"].'_name" name="'.$row['id'].'_name" type="text" data-error=".errorTxt'.$row["id"].'"><div class="errorTxt'.$row["id"].'"></div></td>';					
-                                                    echo '<td><div class="input-field col s12 "><label for="'.$row["id"].'_price">Price</label>';
-                                                    echo '<input value="'.$row["price"].'" id="'.$row["id"].'_price" name="'.$row['id'].'_price" type="text" data-error=".errorTxt'.$row["id"].'"><div class="errorTxt'.$row["id"].'"></div></td>';                   
-                                                    echo '<td>';
-                                                    if($row['deleted'] == 0){
-                                                        $text1 = 'selected';
-                                                        $text2 = '';
-                                                    }
-                                                    else{
-                                                        $text1 = '';
-                                                        $text2 = 'selected';						
-                                                    }
-                                                    echo '<select name="'.$row['id'].'_hide">
-                                                      <option value="1"'.$text1.'>Available</option>
-                                                      <option value="2"'.$text2.'>Not Available</option>
-                                                    </select></td></tr>';
+                                                    echo '
+                                        <tr>
+                                            <td>'.$row["name"].'</td>
+                                            <td>'.$row["price"].'</td>';
+                                                    echo '
+                                            <td><div class="input-field col s12"><label for=".$row["id"]." class="">Quantity</label>';
+                                                    echo '<input id="'.$row[" id"].'" name="'.$row['id'].'" type="text" data-error=".errorTxt'.$row[" id"].'"><div class="errorTxt'.$row[" id"].'"></div></td>
+                                        </tr>';
                                                 }
                                             ?>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="input-field col s12">
-                                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Modificar
-                                        <i class="mdi-content-send right"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                        <form class="formValidate" id="formValidate1" method="post" action="routers/add-item.php" novalidate="novalidate">
-                            <div class="row">
-                                <div class="col s12 m4 l3">
-                                    <h4 class="header">Agregar producto</h4>
+                                    <i class="mdi-editor-mode-edit prefix"></i>
+                                    <textarea id="description" name="description" class="materialize-textarea"></textarea>
+                                    <label for="description" class="">Any note(optional)</label>
                                 </div>
                                 <div>
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th data-field="id">Nombre</th>
-                                            <th data-field="name">Precio</th>
-                                        </tr>
-                   </thead>
-                                        <tbody>
-                                            <?php
-                                                echo '<tr><td><div class="input-field col s12"><label for="name">Name</label>';
-                                                echo '<input id="name" name="name" type="text" data-error=".errorTxt01"><div class="errorTxt01"></div></td>';					
-                                                echo '<td><div class="input-field col s12 "><label for="price" class="">Price</label>';
-                                                echo '<input id="price" name="price" type="text" data-error=".errorTxt02"><div class="errorTxt02"></div></td>';                   
-                                                echo '<td></tr>';
-                                            ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="input-field col s12">
-                                    <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Agregar
-                                        <i class="mdi-content-send right"></i>
-                                    </button>
+                                    <div class="input-field col s12">
+                                        <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Order
+                                            <i class="mdi-content-send right"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
                         <div class="divider"></div>
 
                     </div>
-                    <!--end container-->
                 </section>
-                <!-- END CONTENT -->
             </div>
-            <!-- END WRAPPER -->
+            <!--end container-->
+      </section>
+            <!-- END CONTENT -->
         </div>
-
+        <!-- END MAIN -->
         <!-- //////////////////////////////////////////////////////////////////////////// -->
         <!-- START FOOTER -->
         <footer class="page-footer">
@@ -266,8 +303,8 @@
         </footer>
         <!-- END FOOTER -->
                     <!-- ================================================
-                Scripts
-                ================================================ -->
+                                                                                        Scripts
+                                                                                        ================================================ -->
         <!-- jQuery Library -->
         <script type="text/javascript" src="js/plugins/jquery-1.11.2.min.js"></script>
         <!--angularjs-->
@@ -288,74 +325,38 @@
         <!--custom-script.js - Add your own theme custom JS-->
         <script type="text/javascript" src="js/custom-script.js"></script>
         <script type="text/javascript">
+
+            
+            $("#btnCalcularPrecio").click(function () {
+                                alert("clik me");
+            
             $("#formValidate").validate({
                 rules: {
                     <?php
-                    $result = mysqli_query($con, "SELECT * FROM items");
+                    $result = mysqli_query($con, "SELECT * FROM items where not deleted;");
                     while($row = mysqli_fetch_array($result))
                     {
-                        echo $row["id"].'_name:{
-                        required: true,
-                        minlength: 5,
-                        maxlength: 20 
-                        },';
-                        echo $row["id"].'_price:{
-                        required: true,	
-                        min: 0
-                        },';				
+                        echo $row["id"].':{
+                        min: 0,
+                        max: 10
+                        },
+                        ';
                     }
                 echo '},';
                 ?>
                 messages: {
                     <?php
-                    $result = mysqli_query($con, "SELECT * FROM items");
+                    $result = mysqli_query($con, "SELECT * FROM items where not deleted;");
                     while($row = mysqli_fetch_array($result))
                     {  
-                        echo $row["id"].'_name:{
-                        required: "Ener item name",
-                        minlength: "Minimum length is 5 characters",
-                        maxlength: "Maximum length is 20 characters"
-                        },';
-                        echo $row["id"].'_price:{
-                        required: "Ener price of item",
-                        min: "Minimum item price is Rs. 0"
-                        },';				
+                        echo $row["id"].':{
+                        min: "Minimum 0",
+                        max: "Maximum 10"
+                        },
+                        ';
                     }
                 echo '},';
                 ?>
-                errorElement : 'div',
-                errorPlacement: function(error, element) {
-                  var placement = $(element).data('error');
-                  if (placement) {
-                    $(placement).append(error)
-                  } else {
-                    error.insertAfter(element);
-                  }
-                }
-             });
-        </script>
-        <script type="text/javascript">
-            $("#formValidate1").validate({
-                rules: {
-                name: {
-                        required: true,
-                        minlength: 5
-                    },
-                price: {
-                        required: true,
-                        min: 0
-                    },
-            },
-                messages: {
-                name: {
-                        required: "Enter item name",
-                        minlength: "Minimum length is 5 characters"
-                    },
-                 price: {
-                        required: "Enter item price",
-                        minlength: "Minimum item price is Rs.0"
-                    },
-            },
                 errorElement : 'div',
                 errorPlacement: function(error, element) {
                   var placement = $(element).data('error');
@@ -373,9 +374,9 @@
     }
     else
     {
-        if($_SESSION['customer_sid']==session_id())
+        if($_SESSION['admin_sid']==session_id())
         {
-            header("location:index.php");		
+            header("location:admin-page.php");
         }
         else{
             header("location:login.php");

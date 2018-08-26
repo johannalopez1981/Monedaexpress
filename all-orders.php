@@ -11,7 +11,7 @@ include 'includes/connect.php';
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
-  <title>All orders</title>
+  <title>Toda las ordenes</title>
 
   <!-- Favicons-->
   <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">
@@ -74,7 +74,7 @@ include 'includes/connect.php';
             <li class="user-details cyan darken-2">
             <div class="row">
                 <div class="col col s4 m4 l4">
-                    <img src="images/avatar.jpg" alt="" class="circle responsive-img valign profile-image">
+                    <img src="images/avatar.jpg" alt="Moneda express" class="circle responsive-img valign profile-image">
                 </div>
 				<div class="col col s8 m8 l8">
                     <ul id="profile-dropdown" class="dropdown-content">
@@ -99,7 +99,7 @@ include 'includes/connect.php';
 								if(!isset($_GET['status'])){
 										echo 'active';
 									}?>
-									"><a href="all-orders.php">All Orders</a>
+									"><a href="all-orders.php">Todas las ordenes</a>
                                 </li>
 								<?php
 									$sql = mysqli_query($con, "SELECT DISTINCT status FROM orders;");
@@ -116,25 +116,6 @@ include 'includes/connect.php';
                         </li>
                     </ul>
                 </li>
-                 <li class="no-padding">
-                    <ul class="collapsible collapsible-accordion">
-                        <li class="bold"><a class="collapsible-header waves-effect waves-cyan"><i class="mdi-action-question-answer"></i> Tickets</a>
-                            <div class="collapsible-body">
-                                <ul>
-								<li><a href="all-tickets.php">All Tickets</a>
-                                </li>
-								<?php
-									$sql = mysqli_query($con, "SELECT DISTINCT status FROM tickets;");
-									while($row = mysqli_fetch_array($sql)){
-                                    echo '<li><a href="all-tickets.php?status='.$row['status'].'">'.$row['status'].'</a>
-                                    </li>';
-									}
-									?>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </li>			
             <li class="bold"><a href="users.php" class="waves-effect waves-cyan"><i class="mdi-social-person"></i> Users</a>
             </li>				
         </ul>
@@ -152,7 +133,7 @@ include 'includes/connect.php';
           <div class="container">
             <div class="row">
               <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">All Orders</h5>
+                <h5 class="breadcrumbs-title">Todas las ordenes</h5>
               </div>
             </div>
           </div>
@@ -162,7 +143,7 @@ include 'includes/connect.php';
 
         <!--start container-->
         <div class="container">
-          <p class="caption">List of orders by customers with details</p>
+          <p class="caption">Lista de pedidos de clientes con detalles</p>
           <div class="divider"></div>
           <!--editableTable-->
 <div id="work-collections" class="seaction">
@@ -184,18 +165,18 @@ include 'includes/connect.php';
 						$status = $row['status'];
 						$deleted = $row['deleted'];
 						echo '<li class="collection-item avatar">
-                              <i class="mdi-content-content-paste red circle"></i>
-                              <span class="collection-header">Order No. '.$row['id'].'</span>
-                              <p><strong>Date:</strong> '.$row['date'].'</p>
-                              <p><strong>Payment Type:</strong> '.$row['payment_type'].'</p>							  
-							  <p><strong>Status:</strong> '.($deleted ? $status : '
+                              <i class="mdi-content-content-paste blue circle"></i>
+                              <span class="collection-header">Orden No. '.$row['id'].'</span>
+                              <p><strong>Fecha:</strong> '.$row['date'].'</p>
+                              <p><strong>Tipo de pago:</strong> '.$row['payment_type'].'</p>							  
+							  <p><strong>Estado:</strong> '.($deleted ? $status : '
 							  <form method="post" action="routers/edit-orders.php">
 							    <input type="hidden" value="'.$row['id'].'" name="id">
 								<select name="status">
-								<option value="Yet to be delivered" '.($status=='Yet to be delivered' ? 'selected' : '').'>Yet to be delivered</option>
-								<option value="Delivered" '.($status=='Delivered' ? 'selected' : '').'>Delivered</option>
-								<option value="Cancelled by Admin" '.($status=='Cancelled by Admin' ? 'selected' : '').'>Cancelled by Admin</option>
-								<option value="Paused" '.($status=='Paused' ? 'selected' : '').'>Paused</option>								
+								<option value="Para ser entregado" '.($status=='Para ser entregado' ? 'selected' : '').'>Para ser entregado</option>
+								<option value="Entregado" '.($status=='Entregado' ? 'selected' : '').'>Entregado</option>
+								<option value="Cancelado por el administrador" '.($status=='Cancelado por el administrador' ? 'selected' : '').'>Cancelado por el administrador</option>
+								<option value="Detenido" '.($status=='Detenido' ? 'selected' : '').'>Detenido</option>								
 								</select>
 							  ').'</p>
                               <a href="#" class="secondary-content"><i class="mdi-action-grade"></i></a>
@@ -208,11 +189,11 @@ include 'includes/connect.php';
 							{
 							echo '<li class="collection-item">
                             <div class="row">
-							<p><strong>Name: </strong>'.$row3['name'].'</p>
-							<p><strong>Address: </strong>'.$row['address'].'</p>
-							'.($row3['contact'] == '' ? '' : '<p><strong>Contact: </strong>'.$row3['contact'].'</p>').'	
-							'.($row3['email'] == '' ? '' : '<p><strong>Email: </strong>'.$row3['email'].'</p>').'		
-							'.(!empty($row['description']) ? '<p><strong>Note: </strong>'.$row['description'].'</p>' : '').'								
+							<p><strong>Nombre: </strong>'.$row3['name'].'</p>
+							<p><strong>Dirección: </strong>'.$row['address'].'</p>
+							'.($row3['contact'] == '' ? '' : '<p><strong>Conacto: </strong>'.$row3['contact'].'</p>').'	
+							'.($row3['email'] == '' ? '' : '<p><strong>Correo: </strong>'.$row3['email'].'</p>').'		
+							'.(!empty($row['description']) ? '<p><strong>Nota: </strong>'.$row['description'].'</p>' : '').'								
                             </li>';							
 							}
 						while($row1 = mysqli_fetch_array($sql1))
@@ -258,8 +239,6 @@ include 'includes/connect.php';
 					</ul>
                 </div>
               </div>
-            </div>
-        </div>
         <!--end container-->
 
       </section>
@@ -278,8 +257,7 @@ include 'includes/connect.php';
   <footer class="page-footer">
     <div class="footer-copyright">
       <div class="container">
-        <span>Copyright © 2017 <a class="grey-text text-lighten-4" href="#" target="_blank">Students</a> All rights reserved.</span>
-        <span class="right"> Design and Developed by <a class="grey-text text-lighten-4" href="#">Students</a></span>
+        <span>Copyright © 2018 <a class="grey-text text-lighten-4" href="#" target="_blank">Johanna López</a> Todos los derechos reservados.</span>
         </div>
     </div>
   </footer>
